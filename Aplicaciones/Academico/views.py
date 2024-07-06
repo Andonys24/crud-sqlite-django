@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import Curso
+from django.contrib import messages
 import random
 
 
@@ -22,6 +23,7 @@ def registrarCurso(request):
         curso = Curso.objects.create(
             codigo=random_codigo, nombre=nombre, creditos=creditos
         )
+        messages.success(request, "Cursos Registrado!")
         return redirect("/")
     else:
         # Generar número aleatorio de 6 dígitos
@@ -45,10 +47,12 @@ def editarCurso(request):
     curso.nombre = nombre
     curso.creditos = creditos
     curso.save()
+    messages.success(request, "Cursos Actualizado!")
     return redirect("/")
 
 
 def eliminarCurso(request, codigo):
     curso = Curso.objects.get(codigo=codigo)
     curso.delete()
+    messages.success(request, "Cursos Eliminado")
     return redirect("/")

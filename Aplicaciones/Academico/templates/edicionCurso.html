@@ -2,13 +2,14 @@
 <div class="row">
 	<div class="col-md-4 offset-md-4">
 		<h2>Edición de Curso</h2>
-		<div class="card">
+		<div class="card bg-dark text-white border-light">
 			<div class="card-body">
-				<form action="/editarCurso/" method="POST">
+				<form id="formActualizarCurso" action="/editarCurso/" method="POST">
 					{% csrf_token %}
 					<div class="form-group">
+						<!-- <label for="txtCodigo" class="form-label">Codigo</label> -->
 						<input
-							type="text"
+							type="hidden"
 							id="txtCodigo"
 							name="txtCodigo"
 							value="{{curso.codigo}}"
@@ -21,6 +22,7 @@
 						/>
 					</div>
 					<div class="form-group">
+						<label for="txtNombre" class="form-label">Nombre Curso</label>
 						<input
 							type="text"
 							id="txtNombre"
@@ -29,12 +31,15 @@
 							class="form-control"
 							placeholder="Nombre"
 							maxlength="50"
+							pattern="[A-Za-zÁÉÍÓÚáéíóúñÑ\s]+"
+							title="Ingrese solo letras"
 							required
 						/>
 					</div>
 					<div class="form-group">
+						<label for="numCreditos" class="form-label">Creditos</label>
 						<input
-							type="text"
+							type="number"
 							id="numCreditos"
 							name="numCreditos"
 							value="{{curso.creditos}}"
@@ -46,7 +51,16 @@
 						/>
 					</div>
 					<div class="form-group">
-						<button type="submit" class="btn btn-success btn-block text-white">Guardar</button>
+						<button type="submit" class="btn btn-success btn-block text-white btnActualizar">
+							<i class="bi bi-floppy-fill"></i>
+							 Guardar
+						</button>
+					</div>
+					<div class="form-group">
+						<a href="/" type="button" class="btn btn-primary text-white">
+							<i class="bi bi-arrow-left-short"></i>
+							 regresar
+						</a>
 					</div>
 				</form>
 			</div>
