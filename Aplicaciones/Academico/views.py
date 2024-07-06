@@ -15,3 +15,9 @@ def registrarCurso(request):
 
     curso = Curso.objects.create(codigo=codigo, nombre=nombre, creditos=creditos)
     return redirect("/")
+
+
+def eliminarCurso(request, codigo):
+    curso = Curso.objects.get(codigo=codigo)
+    curso.delete()
+    return redirect("/")
