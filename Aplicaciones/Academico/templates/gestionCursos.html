@@ -1,16 +1,76 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>Estoy en Gestion</h1>
-    <ul>
-        {% for curso in cursos %}
-        <li>{{curso.nombre}}</li>
-        {% endfor %}
-    </ul>
-</body>
-</html>
+{% extends "./base.html" %}
+<!-- Heredamos de la plantilla de ./base.html -->
+{% block title %} Gestión de Cursos {% endblock %}
+<!-- Contenido de la pagina -->
+{% block body %}
+<div class="row">
+	<div class="col-sm-12 col-md-6 col-lg-4 col-xl-4">
+		{% if messages %} {% for message in messages %}
+		<div class="alert alert-dismissible alert-success">
+			<button type="button" class="close" data-dismiss="alert">&times;</button>
+			<strong class="text-dark">{{ message }}</strong>
+		</div>
+		{% endfor %} {% endif %}
+		<h2>Gestión de Curso</h2>
+		<div class="card">
+			<div class="card-body">
+				<form action="/registrarCurso/" method="POST">
+					{% csrf_token %}
+					<div class="form-group">
+						<label for="txtCodigo" class="form-label">Codigo Curso</label>
+						<input
+							type="text"
+							id="txtCodigo"
+							name="txtCodigo"
+							class="form-control"
+							placeholder="Código"
+							minlength="6"
+							maxlength="6"
+							required
+						/>
+					</div>
+					<div class="form-group">
+						<label for="txtNombre" class="form-label">Nombre Curso</label>
+						<input type="text" id="txtNombre" name="txtNombre" class="form-control" placeholder="Nombre" maxlength="50" required />
+					</div>
+					<div class="form-group">
+						<label for="numCreditos" class="form-label">Creditos</label>
+						<input type="number" id="numCreditos" name="numCreditos" class="form-control" min="1" max="9" value="1" required />
+					</div>
+					<div class="form-group">
+						<button type="submit" class="btn btn-success btn-block text-white">Guardar</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<div class="col-sm-12 col-md-6 col-lg-8 col-xl-8">
+		<h1>Listado de Cursos</h1>
+		<div class="table-responsive py-2">
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>Código</th>
+						<th>Nombre</th>
+						<th>Créditos</th>
+						<th colspan="2">Opciones</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for c in cursos %}
+					<tr>
+						<td>{{forloop.counter}}</td>
+						<td>{{c.codigo}}</td>
+						<td>{{c.nombre}}</td>
+						<td>{{c.creditos}}</td>
+						<td><a href="edicionCurso/{{c.codigo}}" class="btn btn-info">Editar</a></td>
+						<td><a href="eliminarCurso/{{c.codigo}}" class="btn btn-danger btnEliminacion">Eliminar</a></td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+{% endblock body %}
